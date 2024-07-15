@@ -9,39 +9,73 @@ class SideMenuItemTile extends StatefulWidget {
     required this.isOpen,
     required this.minWidth,
     required this.data,
+    this.subMenuItems = const [],
   });
+
   final SideMenuItemDataTile data;
   final bool isOpen;
   final double minWidth;
+  final List<SideMenuItemDataTile> subMenuItems;
 
   @override
   State<SideMenuItemTile> createState() => _SideMenuItemTileState();
 }
 
-class _SideMenuItemTileState extends State<SideMenuItemTile> {
+class _SideMenuItemTileState extends State<SideMenuItemTile> with SingleTickerProviderStateMixin {
+  bool isSubMenuOpen = false;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.data.itemHeight,
-      margin: widget.data.margin,
-      decoration: widget.data.decoration ??
-          ShapeDecoration(
-            shape: shape(context),
-            color: widget.data.isSelected
-                ? widget.data.highlightSelectedColor ??
+    return Column(
+      children: [
+        Container(
+          height: widget.data.itemHeight,
+          margin: widget.data.margin,
+          decoration: widget.data.decoration ??
+              ShapeDecoration(
+                shape: shape(context),
+                color: widget.data.isSelected
+                    ? widget.data.highlightSelectedColor ??
                     Theme.of(context).colorScheme.secondaryContainer
-                : null,
+                    : null,
+              ),
+          child: Material(
+            color: Colors.transparent,
+            clipBehavior: widget.data.clipBehavior,
+            shape: widget.data.shape ?? shape(context),
+            child: InkWell(
+              onTap: () {
+                widget.data.onTap?.call();
+                setState(() {
+                  isSubMenuOpen = !isSubMenuOpen;
+                });
+              },
+              hoverColor: widget.data.hoverColor,
+              child: _createView(context: context),
+            ),
           ),
-      child: Material(
-        color: Colors.transparent,
-        clipBehavior: widget.data.clipBehavior,
-        shape: widget.data.shape ?? shape(context),
-        child: InkWell(
-          onTap: widget.data.onTap,
-          hoverColor: widget.data.hoverColor,
-          child: _createView(context: context),
         ),
-      ),
+        ClipRect(
+          child: AnimatedSize(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            child: isSubMenuOpen
+                ? Column(
+              children: widget.subMenuItems.map((subMenuItem) {
+                return Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: SideMenuItemTile(
+                    isOpen: widget.isOpen,
+                    minWidth: widget.minWidth,
+                    data: subMenuItem,
+                  ),
+                );
+              }).toList(),
+            )
+                : const SizedBox.shrink(),
+          ),
+        ),
+      ],
     );
   }
 
@@ -49,16 +83,16 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
     return widget.data.borderRadius != null
         ? RoundedRectangleBorder(borderRadius: widget.data.borderRadius!)
         : Theme.of(context).useMaterial3
-            ? const StadiumBorder()
-            : RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
+        ? const StadiumBorder()
+        : RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
   }
 
   Color getSelectedColor() {
     return widget.data.isSelected
         ? widget.data.selectedTitleStyle?.color ??
-            Theme.of(context).colorScheme.onSecondaryContainer
+        Theme.of(context).colorScheme.onSecondaryContainer
         : widget.data.titleStyle?.color ??
-            Theme.of(context).colorScheme.onSurfaceVariant;
+        Theme.of(context).colorScheme.onSurfaceVariant;
   }
 
   Widget? getSelectedIcon() {
@@ -119,12 +153,29 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
             Expanded(
               child: _title(context: context),
             ),
+          if (widget.subMenuItems.isNotEmpty)
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Align(
+                  alignment:  AlignmentDirectional.centerEnd,
+                  child: Icon(
+                    isSubMenuOpen
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    color: getSelectedColor(),
+                  ),
+                ),
+              ),
+            ),
         ],
       );
     } else if (hasIcon) {
-      return Align(
-        alignment: AlignmentDirectional.centerStart,
-        child: _icon(),
+      return Expanded(
+        child: Align(
+          alignment: AlignmentDirectional.centerStart,
+          child: _icon(),
+        ),
       );
     } else {
       return Container(
@@ -138,15 +189,15 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> {
   Widget _icon() {
     return widget.data.icon != null
         ? SizedBox(
-            width: widget.minWidth - widget.data.margin.horizontal,
-            height: double.maxFinite,
-            child: IconTheme(
-              data: Theme.of(context)
-                  .iconTheme
-                  .copyWith(color: getSelectedColor()),
-              child: getSelectedIcon()!,
-            ),
-          )
+      width: widget.minWidth - widget.data.margin.horizontal,
+      height: double.maxFinite,
+      child: IconTheme(
+        data: Theme.of(context)
+            .iconTheme
+            .copyWith(color: getSelectedColor()),
+        child: getSelectedIcon()!,
+      ),
+    )
         : const SizedBox.shrink();
   }
 

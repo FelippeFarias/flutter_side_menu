@@ -13,7 +13,7 @@ abstract class SideMenuItemData {
 class SideMenuItemDataTile extends SideMenuItemData {
   const SideMenuItemDataTile({
     required this.isSelected,
-    required this.onTap,
+    this.onTap,
     this.icon,
     this.title,
     this.titleStyle,
@@ -34,18 +34,19 @@ class SideMenuItemDataTile extends SideMenuItemData {
     this.decoration,
     this.shape,
     this.clipBehavior = Clip.hardEdge,
+    this.subMenuItems = const [],
   })  : assert(itemHeight >= 0.0),
         assert(icon != null || title != null),
         assert((highlightSelectedColor == null && decoration == null) ||
             (highlightSelectedColor != null
                 ? decoration == null
                 : decoration != null
-                    ? highlightSelectedColor == null
-                    : true)),
+                ? highlightSelectedColor == null
+                : true)),
         super();
 
   final bool isSelected, hasSelectedLine;
-  final void Function() onTap;
+  final void Function()? onTap;
   final Size selectedLineSize;
   final String? title;
   final TextStyle? titleStyle;
@@ -61,19 +62,19 @@ class SideMenuItemDataTile extends SideMenuItemData {
   final Decoration? decoration;
   final ShapeBorder? shape;
   final Clip clipBehavior;
+  final List<SideMenuItemDataTile> subMenuItems;
 
   SideMenuItemDataTile resolveWith({
     final SideMenuItemTileDefaults? g,
   }) {
+    
     return SideMenuItemDataTile(
       titleStyle: titleStyle ?? g?.titleStyle,
       selectedTitleStyle: selectedTitleStyle ?? g?.selectedTitleStyle,
       borderRadius: borderRadius ?? g?.borderRadius,
-      highlightSelectedColor:
-          highlightSelectedColor ?? g?.highlightSelectedColor,
+      highlightSelectedColor: highlightSelectedColor ?? g?.highlightSelectedColor,
       hoverColor: hoverColor ?? g?.hoverColor,
-      decoration:
-          decoration ?? (isSelected ? g?.selectedDecoration : g?.decoration),
+      decoration: decoration ?? (isSelected ? g?.selectedDecoration : g?.decoration),
       shape: shape ?? g?.shape,
       hasSelectedLine: hasSelectedLine,
       selectedLineSize: selectedLineSize,
@@ -87,8 +88,10 @@ class SideMenuItemDataTile extends SideMenuItemData {
       badgeBuilder: badgeBuilder,
       selectedIcon: selectedIcon,
       tooltip: tooltip,
+      subMenuItems: subMenuItems,
     );
   }
+
 }
 
 class SideMenuItemTileDefaults {
