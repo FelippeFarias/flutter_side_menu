@@ -43,6 +43,7 @@ class SideMenuBody extends StatelessWidget {
                 itemCount: data.items!.length,
                 itemBuilder: (context, index) {
                   final item = data.items![index];
+
                   return _buildSideMenuItem(item);
                 },
               ),
@@ -77,7 +78,8 @@ class SideMenuBody extends StatelessWidget {
       (SideMenuItemDataTile _) => SideMenuItemTile(
           minWidth: minWidth,
           isOpen: isOpen,
-          subMenuItems: item.subMenuItems ,
+          subMenuItems: item.subMenuItems.map((item)=>
+              item.resolveWith(g: data.defaultTileData) ).toList() ,
           data: item.resolveWith(g: data.defaultTileData),
         ),
       (SideMenuItemDataTitle _) => SideMenuItemTitle(

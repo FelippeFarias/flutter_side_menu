@@ -35,117 +35,54 @@ class _MyAppState extends State<MyApp> {
               builder: (data) {
                 return SideMenuData(
                   defaultTileData: SideMenuItemTileDefaults(
-                    // decoration: const BoxDecoration(
-                    //     gradient: LinearGradient(
-                    //       colors: [
-                    //         Colors.yellow,
-                    //         Colors.red,
-                    //       ],
-                    //       begin: Alignment.centerLeft,
-                    //       end: Alignment.centerRight,
-                    //     ),
-                    //     borderRadius: BorderRadius.all(
-                    //       Radius.circular(2),
-                    //     ),
-                    //     boxShadow: [
-                    //       BoxShadow(
-                    //         color: Colors.yellow,
-                    //         spreadRadius: 1,
-                    //         blurRadius: 4,
-                    //         offset: Offset(0, 1),
-                    //       )
-                    //     ]),
+                    decoration: const BoxDecoration(
+
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    selectedDecoration: const BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(30),
+                      ),
+                    ),
                     hoverColor: Colors.black,
+                    titleStyle: const TextStyle(color: Colors.white),
+
                   ),
                   animItems: SideMenuItemsAnimationData(),
                   header: const Text('Header'),
                   items: [
                     const SideMenuItemDataTitle(title: 'Section Header'),
                     SideMenuItemDataTile(
+                      isSelected: _currentIndex == 10,
                       subMenuItems: [
                         SideMenuItemDataTile(
-                          isSelected: _currentIndex == 0,
-                          onTap: () => setState(() => _currentIndex = 0),
-                          title: 'Item 1',
-                          hoverColor: Colors.blue,
-                          titleStyle: const TextStyle(color: Colors.white),
-                          icon: const Icon(Icons.home_outlined),
-                          selectedIcon: const Icon(Icons.home),
-                        ),
-                        SideMenuItemDataTile(
-                          isSelected: _currentIndex == 0,
-                          onTap: () => setState(() => _currentIndex = 0),
-                          title: 'Item 1',
-                          hoverColor: Colors.blue,
-                          titleStyle: const TextStyle(color: Colors.white),
-                          icon: const Icon(Icons.home_outlined),
-                          selectedIcon: const Icon(Icons.home),
-                          badgeBuilder: (tile) => badges.Badge(
-                            badgeContent: const Center(
-                              child: Text(
-                                '23',
-                                style: TextStyle(
-                                  fontSize: 8,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            position: badges.BadgePosition.custom(
-                              end: 12.0,
-                              bottom: 0.0,
-                              top: 0.0,
-                            ),
-                            child: tile,
-                          ),
-                        ),
-                        SideMenuItemDataTile(
-                          decoration: const BoxDecoration(
-                              gradient: LinearGradient(
-                                colors: [
-                                  Colors.yellow,
-                                  Colors.red,
-                                ],
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                              ),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(2),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.yellow,
-                                  spreadRadius: 1,
-                                  blurRadius: 4,
-                                  offset: Offset(0, 1),
-                                )
-                              ]),
-                          shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.all(
-                            Radius.circular(2),
-                          )),
-                          // hasSelectedLine: false,
-                          isSelected: _currentIndex == 0,
-                          onTap: () => setState(() => _currentIndex = 0),
-                          title: 'Item 1',
-                          hoverColor: Colors.blue,
-                          titleStyle: const TextStyle(color: Colors.white),
-                          icon: const Icon(Icons.home_outlined),
-                          selectedIcon: const Icon(Icons.home),
-                        ),
-                        SideMenuItemDataTile(
                           isSelected: _currentIndex == 1,
-                          onTap: () => setState(() => _currentIndex = 1),
-                          title: 'Item 2',
-                          selectedTitleStyle: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Colors.yellow),
+                          onTap: ()=> setState(() => _currentIndex = 1),
+                          subMenuItems: [
+                            SideMenuItemDataTile(
+                              isSelected: _currentIndex == 2,
+                              onTap: ()=> setState(() => _currentIndex = 2),
+                              title: 'Item 1',
+                              icon: const Icon(Icons.search),
+                              selectedIcon: const Icon(Icons.search_rounded),
+                            ),
+                          ],
+                          title: 'Item 1',
+                          icon: const Icon(Icons.home_outlined),
+                          selectedIcon: const Icon(Icons.home),
+                        ),
+                        SideMenuItemDataTile(
+                          isSelected: _currentIndex == 2,
+                          onTap: ()=> setState(() => _currentIndex = 2),
+                          title: 'Item 1',
+                          icon: const Icon(Icons.search),
+                          selectedIcon: const Icon(Icons.search_rounded),
                         ),
                       ],
-                      isSelected: _currentIndex == 10,
-                      onTap: () => setState(() => _currentIndex = 10),
                       title: 'Item 10',
-                      hoverColor: Colors.blue,
-                      titleStyle: const TextStyle(color: Colors.white),
                       icon: const Icon(Icons.home_outlined),
                       selectedIcon: const Icon(Icons.home),
                     ),

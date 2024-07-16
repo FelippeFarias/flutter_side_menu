@@ -65,6 +65,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> with SingleTickerPr
                 return Padding(
                   padding: const EdgeInsets.only(left: 8.0),
                   child: SideMenuItemTile(
+                    subMenuItems: subMenuItem.subMenuItems,
                     isOpen: widget.isOpen,
                     minWidth: widget.minWidth,
                     data: subMenuItem,
