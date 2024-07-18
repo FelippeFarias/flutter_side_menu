@@ -24,7 +24,7 @@ class _ResizerToggleState extends State<ResizerToggle> {
   @override
   Widget build(BuildContext context) {
     return PositionedDirectional(
-      top: widget.data.topPosition,
+      bottom: widget.data.topPosition,
       child: InkWell(
         onTap: () => widget.onTap(),
         onHover: (hover) {

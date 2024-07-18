@@ -29,6 +29,7 @@ class _MyAppState extends State<MyApp> {
         body: Row(
           children: [
             SideMenu(
+
               minWidth: 60,
               controller: _controller,
               backgroundColor: Colors.blueGrey,
