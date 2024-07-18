@@ -29,6 +29,7 @@ class _MyAppState extends State<MyApp> {
         body: Row(
           children: [
             SideMenu(
+              minWidth: 60,
               controller: _controller,
               backgroundColor: Colors.blueGrey,
               mode: SideMenuMode.open,
@@ -52,10 +53,9 @@ class _MyAppState extends State<MyApp> {
 
                   ),
                   animItems: SideMenuItemsAnimationData(),
-                  header: const Text('Header'),
+
                   items: [
-                    const SideMenuItemDataTitle(title: 'Section Header'),
-                    SideMenuItemDataTile(
+                     SideMenuItemDataTile(
                       isSelected: _currentIndex == 10,
                       subMenuItems: [
                         SideMenuItemDataTile(
@@ -82,6 +82,12 @@ class _MyAppState extends State<MyApp> {
                           selectedIcon: const Icon(Icons.search_rounded),
                         ),
                       ],
+                      title: 'Item 10',
+                      icon: const Icon(Icons.home_outlined),
+                      selectedIcon: const Icon(Icons.home),
+                    ),
+                    SideMenuItemDataTile(
+                      isSelected: true,
                       title: 'Item 10',
                       icon: const Icon(Icons.home_outlined),
                       selectedIcon: const Icon(Icons.home),

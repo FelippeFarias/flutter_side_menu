@@ -21,7 +21,8 @@ class SideMenuItemTile extends StatefulWidget {
   State<SideMenuItemTile> createState() => _SideMenuItemTileState();
 }
 
-class _SideMenuItemTileState extends State<SideMenuItemTile> with SingleTickerProviderStateMixin {
+class _SideMenuItemTileState extends State<SideMenuItemTile>
+    with SingleTickerProviderStateMixin {
   bool isSubMenuOpen = false;
 
   @override
@@ -36,7 +37,7 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> with SingleTickerPr
                 shape: shape(context),
                 color: widget.data.isSelected
                     ? widget.data.highlightSelectedColor ??
-                    Theme.of(context).colorScheme.secondaryContainer
+                        Theme.of(context).colorScheme.secondaryContainer
                     : null,
               ),
           child: Material(
@@ -61,18 +62,18 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> with SingleTickerPr
             curve: Curves.easeInOut,
             child: isSubMenuOpen
                 ? Column(
-              children: widget.subMenuItems.map((subMenuItem) {
-                return Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: SideMenuItemTile(
-                    subMenuItems: subMenuItem.subMenuItems,
-                    isOpen: widget.isOpen,
-                    minWidth: widget.minWidth,
-                    data: subMenuItem,
-                  ),
-                );
-              }).toList(),
-            )
+                    children: widget.subMenuItems.map((subMenuItem) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: SideMenuItemTile(
+                          subMenuItems: subMenuItem.subMenuItems,
+                          isOpen: widget.isOpen,
+                          minWidth: widget.minWidth,
+                          data: subMenuItem,
+                        ),
+                      );
+                    }).toList(),
+                  )
                 : const SizedBox.shrink(),
           ),
         ),
@@ -84,16 +85,16 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> with SingleTickerPr
     return widget.data.borderRadius != null
         ? RoundedRectangleBorder(borderRadius: widget.data.borderRadius!)
         : Theme.of(context).useMaterial3
-        ? const StadiumBorder()
-        : RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
+            ? const StadiumBorder()
+            : RoundedRectangleBorder(borderRadius: BorderRadius.circular(4));
   }
 
   Color getSelectedColor() {
     return widget.data.isSelected
         ? widget.data.selectedTitleStyle?.color ??
-        Theme.of(context).colorScheme.onSecondaryContainer
+            Theme.of(context).colorScheme.onSecondaryContainer
         : widget.data.titleStyle?.color ??
-        Theme.of(context).colorScheme.onSurfaceVariant;
+            Theme.of(context).colorScheme.onSurfaceVariant;
   }
 
   Widget? getSelectedIcon() {
@@ -147,25 +148,28 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> with SingleTickerPr
     final hasIcon = widget.data.icon != null;
     final hasTitle = widget.data.title != null;
     if (hasIcon && hasTitle) {
-      return Row(
+      return Flex(
+        direction: Axis.horizontal  ,
         children: [
-          _icon(),
+          Flexible(
+            flex: 1,
+            child: _icon(),
+          ),
           if (widget.isOpen)
-            Expanded(
+            Flexible(
+              flex: 1,
               child: _title(context: context),
             ),
-          if (widget.subMenuItems.isNotEmpty)
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Align(
-                  alignment:  AlignmentDirectional.centerEnd,
-                  child: Icon(
-                    isSubMenuOpen
-                        ? Icons.keyboard_arrow_up
-                        : Icons.keyboard_arrow_down,
-                    color: getSelectedColor(),
-                  ),
+          if (widget.subMenuItems.isNotEmpty && widget.isOpen)
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: Icon(
+                  isSubMenuOpen
+                      ? Icons.keyboard_arrow_up
+                      : Icons.keyboard_arrow_down,
+                  color: getSelectedColor(),
                 ),
               ),
             ),
@@ -179,10 +183,12 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> with SingleTickerPr
         ),
       );
     } else {
-      return Container(
-        alignment: AlignmentDirectional.centerStart,
-        padding: Constants.textStartPadding,
-        child: _title(context: context),
+      return Expanded(
+        child: Container(
+          alignment: AlignmentDirectional.centerStart,
+          padding: Constants.textStartPadding,
+          child: _title(context: context),
+        ),
       );
     }
   }
@@ -190,15 +196,15 @@ class _SideMenuItemTileState extends State<SideMenuItemTile> with SingleTickerPr
   Widget _icon() {
     return widget.data.icon != null
         ? SizedBox(
-      width: widget.minWidth - widget.data.margin.horizontal,
-      height: double.maxFinite,
-      child: IconTheme(
-        data: Theme.of(context)
-            .iconTheme
-            .copyWith(color: getSelectedColor()),
-        child: getSelectedIcon()!,
-      ),
-    )
+            width: widget.minWidth - widget.data.margin.horizontal,
+            height: double.maxFinite,
+            child: IconTheme(
+              data: Theme.of(context)
+                  .iconTheme
+                  .copyWith(color: getSelectedColor()),
+              child: getSelectedIcon()!,
+            ),
+          )
         : const SizedBox.shrink();
   }
 

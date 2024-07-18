@@ -1,5 +1,5 @@
-## 0.5.4
-  * Add `subMenus` to `SideMenuData` to define sub menu items
+## 0.6.1
+  * Fix bug in SideMenu when stretch is false
 
 ## 0.5.3
 * Add `selectedDecoration` to `SideMenuItemTileDefaults`
