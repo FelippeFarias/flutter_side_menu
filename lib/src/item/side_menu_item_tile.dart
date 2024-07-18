@@ -160,15 +160,17 @@ class _SideMenuItemTileState extends State<SideMenuItemTile>
            Expanded(child:  _title(context: context)),
  
           if (widget.subMenuItems.isNotEmpty && widget.isOpen)
-            Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: Icon(
-                  isSubMenuOpen
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
-                  color: getSelectedColor(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: Icon(
+                    isSubMenuOpen
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    color: getSelectedColor(),
+                  ),
                 ),
               ),
             ),
