@@ -1,3 +1,6 @@
+## 0.5.4
+  * Add `subMenus` to `SideMenuData` to define sub menu items
+
 ## 0.5.3
 * Add `selectedDecoration` to `SideMenuItemTileDefaults`
 
