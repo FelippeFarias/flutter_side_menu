@@ -149,17 +149,16 @@ class _SideMenuItemTileState extends State<SideMenuItemTile>
     final hasTitle = widget.data.title != null;
     if (hasIcon && hasTitle) {
       return Flex(
+        mainAxisSize: MainAxisSize.max,
         direction: Axis.horizontal  ,
         children: [
           Flexible(
-            flex: 1,
+            flex: 0,
             child: _icon(),
           ),
           if (widget.isOpen)
-            Flexible(
-              flex: 1,
-              child: _title(context: context),
-            ),
+           Expanded(child:  _title(context: context)),
+ 
           if (widget.subMenuItems.isNotEmpty && widget.isOpen)
             Padding(
               padding: const EdgeInsets.only(right: 8.0),
